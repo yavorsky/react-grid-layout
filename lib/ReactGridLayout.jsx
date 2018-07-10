@@ -69,7 +69,8 @@ export type Props = {
   onResize: EventCallback,
   onResizeStart: EventCallback,
   onResizeStop: EventCallback,
-  children: ReactChildrenArray<ReactElement<any>>
+  children: ReactChildrenArray<ReactElement<any>>,
+  resizableAxis: string
 };
 // End Types
 
@@ -102,6 +103,8 @@ export default class ReactGridLayout extends React.Component<Props, State> {
     draggableCancel: PropTypes.string,
     // A selector for the draggable handler
     draggableHandle: PropTypes.string,
+
+    resizableAxis: PropTypes.string,
 
     // Deprecated
     verticalCompact: function(props: Props) {
@@ -223,7 +226,8 @@ export default class ReactGridLayout extends React.Component<Props, State> {
     onDragStop: noop,
     onResizeStart: noop,
     onResize: noop,
-    onResizeStop: noop
+    onResizeStop: noop,
+    resizableAxis: "both"
   };
 
   state: State = {
@@ -532,7 +536,8 @@ export default class ReactGridLayout extends React.Component<Props, State> {
       containerPadding,
       rowHeight,
       maxRows,
-      useCSSTransforms
+      useCSSTransforms,
+      resizableAxis
     } = this.props;
 
     // {...this.state.activeDrag} is pretty slow, actually
@@ -553,6 +558,7 @@ export default class ReactGridLayout extends React.Component<Props, State> {
         isDraggable={false}
         isResizable={false}
         useCSSTransforms={useCSSTransforms}
+        resizableAxis={resizableAxis}
       >
         <div />
       </GridItem>
@@ -579,7 +585,8 @@ export default class ReactGridLayout extends React.Component<Props, State> {
       isResizable,
       useCSSTransforms,
       draggableCancel,
-      draggableHandle
+      draggableHandle,
+      resizableAxis
     } = this.props;
     const { mounted } = this.state;
 
@@ -621,6 +628,7 @@ export default class ReactGridLayout extends React.Component<Props, State> {
         maxH={l.maxH}
         maxW={l.maxW}
         static={l.static}
+        resizableAxis={resizableAxis}
       >
         {child}
       </GridItem>
